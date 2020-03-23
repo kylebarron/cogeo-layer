@@ -59,7 +59,7 @@ zip -r9q /tmp/package.zip app.py
 
 #### Complex (dependencies)
 
-- Create a docker file 
+- Create a docker file
 ```dockerfile
 FROM remotepixel/amazonlinux:gdal3.0-py3.7-cogeo
 
@@ -74,13 +74,36 @@ RUN rm -rf ${PYTHONUSERBASE}/lib
 
 echo "Create archive"
 RUN cd $PYTHONUSERBASE && zip -r9q /tmp/package.zip *
-``` 
+```
 
 - create package
+
 ```bash
 docker build --tag package:latest .
-docker run --name lambda -w /var/task -itd package:latest bash
+docker run --name lambda -w /var/task -itd package:latest bash scripts/create-lambda-layer.sh
 docker cp lambda:/tmp/package.zip package.zip
 docker stop lambda
 docker rm lambda
 ```
+
+#### Update layer
+
+```bash
+docker build --tag package:latest --build-arg GDAL_VERSION=3.0 .
+docker run --name lambda -w /var/task -itd package:latest bash
+docker cp scripts/create-lambda-layer.sh lambda:/create-lambda-layer.sh
+docker exec -it lambda bash /create-lambda-layer.sh
+docker cp lambda:/tmp/package.zip package.zip
+docker stop lambda
+docker rm lambda
+```
+
+Publish layer
+
+```bash
+cp package.zip gdal3.0-py3.7-cogeo.zip
+
+# layer name, gdal version, python version
+bash scripts/deploy-layer.sh "cogeo" "3.0" "3.7"
+```
+
