@@ -1,4 +1,4 @@
-lambda-proxy~=5.0
+lambda-proxy~=5.1
 numpy
 pyproj==2.4.1
 rasterio>=1.1.3
