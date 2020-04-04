@@ -22,14 +22,7 @@ supermercado
 
 #### Arns
 
-`arn:aws:lambda:{REGION}:524387336408:layer:gdal{GDAL_VERSION_NODOT}-py37-cogeo:{LAYER_VERSION}}`
-
-#### Regions
-- us-east-1
-- us-east-2
-- us-west-1
-- us-west-2
-- eu-central-1
+Current ARNs are listed in [`arns.json`](arns.json).
 
 #### Version
 
@@ -109,3 +102,8 @@ cp package.zip gdal2.4-py3.7-cogeo.zip
 bash scripts/deploy-layer.sh "cogeo" "2.4" "3.7"
 ```
 
+List ARNs
+
+```bash
+python scripts/list_layers.py > arns.json
+```
