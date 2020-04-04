@@ -5,7 +5,7 @@
 #### Python package
 
 ```
-lambda-proxy~=5.0
+lambda-proxy~=5.1
 numpy
 pygeos
 pyproj==2.4.1 (only with GDAL 3.0)
@@ -89,7 +89,7 @@ docker rm lambda
 #### Update layer
 
 ```bash
-docker build --tag package:latest --build-arg GDAL_VERSION=3.0 .
+docker build --tag package:latest --build-arg GDAL_VERSION=2.4 .
 docker run --name lambda -w /var/task -itd package:latest bash
 docker cp scripts/create-lambda-layer.sh lambda:/create-lambda-layer.sh
 docker exec -it lambda bash /create-lambda-layer.sh
@@ -101,9 +101,11 @@ docker rm lambda
 Publish layer
 
 ```bash
-cp package.zip gdal3.0-py3.7-cogeo.zip
+# cp package.zip gdal3.0-py3.7-cogeo.zip
+cp package.zip gdal2.4-py3.7-cogeo.zip
 
 # layer name, gdal version, python version
-bash scripts/deploy-layer.sh "cogeo" "3.0" "3.7"
+# bash scripts/deploy-layer.sh "cogeo" "3.0" "3.7"
+bash scripts/deploy-layer.sh "cogeo" "2.4" "3.7"
 ```
 
